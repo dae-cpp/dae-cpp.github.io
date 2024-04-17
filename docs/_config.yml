@@ -4,5 +4,9 @@ theme: just-the-docs
 
 url: https://dae-cpp.github.io
 
+# For copy button on code
+enable_copy_code_button: true
+
 aux_links:
-  dae-cpp on GitHub: https://github.com/dae-cpp/dae-cpp
+  "dae-cpp on GitHub":
+    - "https://github.com/dae-cpp/dae-cpp"
