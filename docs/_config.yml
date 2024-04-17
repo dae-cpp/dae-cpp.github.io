@@ -1,8 +1,8 @@
-title: Just the Docs Template
-description: A starter template for a Jeykll site using the Just the Docs theme!
+title: dae-cpp
+description: A simple but powerful header-only C++ solver for systems of Differential-Algebraic Equations (DAE)
 theme: just-the-docs
 
 url: https://dae-cpp.github.io
 
 aux_links:
-  Template Repository: https://github.com/dae-cpp/dae-cpp
+  dae-cpp on GitHub: https://github.com/dae-cpp/dae-cpp
