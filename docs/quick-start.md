@@ -53,7 +53,7 @@ Below is a simplified procedure of defining and solving the given DAE system usi
 
 ### Step 1. Define the mass matrix of the system
 
-Tha mass matrix contains only one non-zero element:
+The mass matrix contains only one non-zero element:
 
 $$
 \mathbf{M} =
