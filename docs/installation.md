@@ -10,7 +10,7 @@ nav_order: 1.2
 
 - Download the library from `dae-cpp` repository on GitHub: [https://github.com/dae-cpp/dae-cpp](https://github.com/dae-cpp/dae-cpp).
 - The solver is header-only, with all dependencies included. There is no need to pre-compile the sources, just copy `dae-cpp`, `Eigen`, and `autodiff` folders into your project.
-- Optionally: examples and tests can be compiled using CMake (see [Testing](#testing)).
+- *Optionally:* examples and tests can be compiled using CMake (see [Testing](#testing)).
 
 ## Testing
 
