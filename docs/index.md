@@ -4,40 +4,55 @@ layout: home
 nav_order: 1
 ---
 
-Work in progress
-{: .label .label-red }
-
 <p align="center">
 <img src="../assets/images/dae-cpp-01a.png" alt="dae-cpp logo" width="250"/>
 </p>
 
-This is a *bare-minimum* template to create a Jekyll site that uses the [Just the Docs] theme. You can easily set the created site to be published on [GitHub Pages] – the [README] file explains how to do that, along with other details.
 
-If [Jekyll] is installed on your computer, you can also build and preview the created site *locally*. This lets you test changes before committing them, and avoids waiting for GitHub Pages.[^1] And you will be able to deploy your local build to a different platform than GitHub Pages.
+{: .note }
+This is a massively reworked and updated version of `dae-cpp`, which is incompatible with the previous version. If your project still relies on the old `dae-cpp`, it is archived in the [legacy](https://github.com/dae-cpp/dae-cpp/tree/legacy) branch.
 
-More specifically, the created site:
+## What is `dae-cpp`
 
-- uses a gem-based approach, i.e. uses a `Gemfile` and loads the `just-the-docs` gem
-- uses the [GitHub Pages / Actions workflow] to build and publish the site on GitHub Pages
+`dae-cpp` is a cross-platform, header-only C++-17 library for solving stiff systems of [Differential-Algebraic Equations](https://en.wikipedia.org/wiki/Differential-algebraic_system_of_equations) (DAE). DAE systems can contain both differential and algebraic equations and can be written in the following matrix-vector form:
 
-Other than that, you're free to customize sites that you create with this template, however you like. You can easily change the versions of `just-the-docs` and Jekyll it uses, as well as adding further plugins.
+$$\mathbf{M}(t) \frac{\mathrm{d}\mathbf{x}}{\mathrm{d}t} = \mathbf{f}(\mathbf{x}, t),$$
 
-[Browse our documentation][Just the Docs] to learn more about how to use this theme.
+to be solved in the interval $$t \in [0, t_\mathrm{end}]$$ with the initial condition $$\mathbf{x}\rvert_{t=0} = \mathbf{x}_0$$. Here $$\mathbf{M}(t)$$ is the mass matrix (can depend on time), $$\mathbf{x}(t)$$ is the state vector, and $$\mathbf{f}(\mathbf{x}, t)$$ is the (nonlinear) vector function of the state vector $$\mathbf{x}$$ and time $$t$$.
 
-To get started with creating a site, simply:
+### How does it work
 
-1. click "[use this template]" to create a GitHub repository
-2. go to Settings > Pages > Build and deployment > Source, and select GitHub Actions
+The DAE solver uses implicit Backward Differentiation Formulae (BDF) of orders I-IV with adaptive time stepping. Every time step, the BDF integrator reduces the original DAE system to a system of nonlinear equations, which is solved using iterative [Quasi-Newton](https://en.wikipedia.org/wiki/Quasi-Newton_method) root-finding algorithm. The Quasi-Newton method reduces the problem further down to a system of linear equations, which is solved using [Eigen](https://eigen.tuxfamily.org/index.php?title=Main_Page), a versatile and fast C++ template library for linear algebra.
+Eigen's sparse solver performs two steps: factorization (decomposition) of the Jacobian matrix and the linear system solving itself. This gives us the numerical solution of the entire DAE system at the current time step. Finally, depending on the convergence rate of the Quasi-Newton method, variability of the solution, and user-defined accuracy, the DAE solver adjusts the time step size and initiates a new iteration in time.
 
-If you want to maintain your docs in the `docs` directory of an existing project repo, see [Hosting your docs from an existing project repo](https://github.com/just-the-docs/just-the-docs-template/blob/main/README.md#hosting-your-docs-from-an-existing-project-repo) in the template README.
+### The main features of the solver
 
-----
+- Header only, no pre-compilation required.
+- Uses automatic (algorithmic, exact) differentiation ([autodiff](https://autodiff.github.io/)) to compute the Jacobian matrix, if it is not provided by the user.
+- Fourth-order implicit BDF time integrator that preserves accuracy even when the time step rapidly changes.
+- A very flexible and customizable variable time stepping algorithm based on the solution stability and variability.
+- Mass matrix can be non-static (can depend on time) and it can be singular.
+- The library is extremely easy to use. A simple DAE can be set up using just a few lines of code (see [Quick Start](#quick-start) example below).
 
-[^1]: [It can take up to 10 minutes for changes to your site to publish after you push the changes to GitHub](https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/creating-a-github-pages-site-with-jekyll#creating-your-site).
+### Installation
 
-[Just the Docs]: https://just-the-docs.github.io/just-the-docs/
-[GitHub Pages]: https://docs.github.com/en/pages
-[README]: https://github.com/just-the-docs/just-the-docs-template/blob/main/README.md
-[Jekyll]: https://jekyllrb.com
-[GitHub Pages / Actions workflow]: https://github.blog/changelog/2022-07-27-github-pages-custom-github-actions-workflows-beta/
-[use this template]: https://github.com/just-the-docs/just-the-docs-template/generate
+This library is header only, no need to install, just copy `dae-cpp`, `Eigen`, and `autodiff` folders into your project.
+
+Examples and tests can be compiled using CMake (see [Testing](#testing)).
+
+### Testing
+
+If you already have cloned the project without `--recurse-submodules` option, you can initialize and update `googletest` submodule by running
+
+```bash
+git submodule update --init
+```
+
+Then build and run the tests:
+
+```bash
+mkdir build && cd build
+cmake ..
+make
+ctest
+```

@@ -25,6 +25,13 @@ aux_links_new_tab: true
 # Color scheme supports "light" (default) and "dark"
 color_scheme: light
 
+# Math support
+compress_html:
+  - blanklines: true
+
+# LaTeX rendering via "katex" (KaTeX, default) or "mathjax" (MathJax) or "none" / "off" (NO rendering)
+latex: mathjax
+
 # Back to top link
 back_to_top: true
 back_to_top_text: "Back to top"
