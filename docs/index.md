@@ -10,15 +10,15 @@ nav_order: 1
 
 
 {: .note }
-This is a massively reworked and updated version of `dae-cpp`, which is incompatible with the previous version. If your project still relies on the old `dae-cpp`, it is archived in the [legacy](https://github.com/dae-cpp/dae-cpp/tree/legacy) branch.
+This is a massively reworked and updated version of `dae-cpp`, which is incompatible with the previous version (1.x). If your project still relies on the old `dae-cpp`, it is archived in the [legacy](https://github.com/dae-cpp/dae-cpp/tree/legacy) branch.
 
 ## What is `dae-cpp`
 
-`dae-cpp` is a cross-platform, header-only C++-17 library for solving stiff systems of [Differential-Algebraic Equations](https://en.wikipedia.org/wiki/Differential-algebraic_system_of_equations) (DAE). DAE systems can contain both differential and algebraic equations and can be written in the following matrix-vector form:
+`dae-cpp` is a cross-platform, header-only C++17 library for solving stiff and non-stiff systems of [Differential-Algebraic Equations](https://en.wikipedia.org/wiki/Differential-algebraic_system_of_equations) (DAE). DAE systems are equation systems that can contain both *differential* and *algebraic* equations and can be written in the following matrix-vector form:
 
 $$\mathbf{M}(t) \frac{\mathrm{d}\mathbf{x}}{\mathrm{d}t} = \mathbf{f}(\mathbf{x}, t),$$
 
-to be solved in the interval $$t \in [0, t_\mathrm{end}]$$ with the initial condition $$\mathbf{x}\rvert_{t=0} = \mathbf{x}_0$$. Here $$\mathbf{M}(t)$$ is the mass matrix (can depend on time), $$\mathbf{x}(t)$$ is the state vector, and $$\mathbf{f}(\mathbf{x}, t)$$ is the (nonlinear) vector function of the state vector $$\mathbf{x}$$ and time $$t$$.
+to be solved in the interval $$t \in [0, t_\mathrm{end}]$$ with the given initial condition $$\mathbf{x}\rvert_{t=0} = \mathbf{x}_0$$. Here $$\mathbf{M}(t)$$ is the mass matrix (can depend on time), $$\mathbf{x}(t)$$ is the state vector, and $$\mathbf{f}(\mathbf{x}, t)$$ is the (nonlinear) vector function of the state vector $$\mathbf{x}$$ and time $$t$$.
 
 ### How does it work
 
@@ -32,27 +32,9 @@ Eigen's sparse solver performs two steps: factorization (decomposition) of the J
 - Fourth-order implicit BDF time integrator that preserves accuracy even when the time step rapidly changes.
 - A very flexible and customizable variable time stepping algorithm based on the solution stability and variability.
 - Mass matrix can be non-static (can depend on time) and it can be singular.
-- The library is extremely easy to use. A simple DAE can be set up using just a few lines of code (see [Quick Start](#quick-start) example below).
+- The library is extremely easy to use. A simple DAE can be set up using just a few lines of code (see [Quick Start](quick-start.html)).
 
-### Installation
+### What's next?
 
-This library is header only, no need to install, just copy `dae-cpp`, `Eigen`, and `autodiff` folders into your project.
-
-Examples and tests can be compiled using CMake (see [Testing](#testing)).
-
-### Testing
-
-If you already have cloned the project without `--recurse-submodules` option, you can initialize and update `googletest` submodule by running
-
-```bash
-git submodule update --init
-```
-
-Then build and run the tests:
-
-```bash
-mkdir build && cd build
-cmake ..
-make
-ctest
-```
+- [Installation and Testing](installation.html)
+- [Quick Start](quick-start.html)
