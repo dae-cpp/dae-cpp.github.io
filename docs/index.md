@@ -1,7 +1,15 @@
 ---
 title: Home
 layout: home
+nav_order: 1
 ---
+
+Work in progress
+{: .label .label-red }
+
+<p align="center">
+<img src="../assets/images/dae-cpp-01a.png" alt="dae-cpp logo" width="250"/>
+</p>
 
 This is a *bare-minimum* template to create a Jekyll site that uses the [Just the Docs] theme. You can easily set the created site to be published on [GitHub Pages] – the [README] file explains how to do that, along with other details.
 
