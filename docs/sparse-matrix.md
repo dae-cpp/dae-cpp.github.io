@@ -7,8 +7,8 @@ nav_order: 2
 # Sparse Matrix class
 
 Sparse Matrix class `daecpp::sparse_matrix` defines sparse matrix holder in [three-array format](#three-array-format). 
-It is used to define the mass matrix and, optionally, the Jacobian matrix of the DAE system.
-The class provides a set of helper tools for the user to allocate memory, define and convert sparse matrices in a very straightforward way, e.g.:
+It is used to define the [mass matrix](mass-matrix.html) and, optionally, the [Jacobian matrix](jacobian-matrix.html) of the DAE system.
+The class provides a set of helper tools for the user to allocate memory, define and convert sparse matrices, etc., in a very straightforward way, e.g.:
 
 ```cpp
 sparse_matrix M;                 // Creates empty sparse matrix M
