@@ -29,4 +29,4 @@ using namespace daecpp;
 | `daecpp::int_type` | `uint32_t` (default), <br> `uint64_t` if `DAECPP_LONG` is defined | Unsigned integer type, used for sparse matrix indices |
 | `daecpp::float_type` | `double` (default), <br> `float` if `DAECPP_SINGLE` is defined | Floating point scalar, used for sparse matrix coefficients |
 | `daecpp::state_vector` | `std::vector<float_type>` | State vector, used, for example, to define the initial condition |
-| `daecpp::state_type` | `autodiff::VectorXreal` | State vector, used for the [vector function](vector-function.html) definition so that it can be automatically (algorithmically) differentiated using `autodiff` package |
+| `daecpp::state_type` | `autodiff::VectorXreal` | State vector, used for the [vector function](vector-function.html) definition so that it can be automatically (algorithmically) differentiated using [`autodiff`](https://autodiff.github.io/) package |
