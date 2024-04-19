@@ -5,7 +5,7 @@ nav_order: 1
 ---
 
 <p align="center">
-<img src="../assets/images/dae-cpp-01a.png" alt="dae-cpp logo" width="250"/>
+<img src="../assets/images/logo.png" alt="dae-cpp logo" width="250"/>
 </p>
 
 
