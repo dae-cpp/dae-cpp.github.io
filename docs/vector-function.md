@@ -33,7 +33,7 @@ Vector `f` is already pre-allocated with `f.size() == x.size()` and should be us
 The elements of vectors `x` and `f` can be accessed using square brackets `[]`.
 
 {: .note }
-The type of vectors `f` and `x` is `daecpp::state_type`, which is an [`autodiff`](https://autodiff.github.io/)'s type used to perform automatic (algorithmic) differentiation of the vector function `f`. See [`dae-cpp` types](https://dae-cpp.github.io/prerequisites.html#dae-cpp-types) section.
+The type of vectors `f` and `x` is `daecpp::state_type`, which is an alias of [`autodiff`](https://autodiff.github.io/)'s type used to perform automatic (algorithmic) differentiation of the vector function `f`. See [`dae-cpp` types](https://dae-cpp.github.io/prerequisites.html#dae-cpp-types) section.
 
 ## Examples
 

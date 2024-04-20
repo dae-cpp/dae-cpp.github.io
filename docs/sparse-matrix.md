@@ -93,7 +93,7 @@ M(0, 1, 2.0);    // Duplicated element is OK, it will be summed up, i.e., the va
 ## `void add_element(int_type ind_i, int_type ind_j, float_type A_ij)`
 
 <br>
-An alias to the operator `()` defined above.
+An alias of the operator `()` defined above.
 Adds next non-zero element to the sparse matrix.
 Duplicated elements will be summed up.
 

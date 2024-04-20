@@ -33,7 +33,7 @@ Initially, matrix `M` is empty and should be filled with non-zero elements.
 
 ## Examples
 
-Consider the following mass matrix $$\mathbf{x}$$:
+Consider the following mass matrix $$\mathbf{M}$$:
 
 $$
 \mathbf{M} =
@@ -76,7 +76,7 @@ struct UserDefinedMassMatrix
 {: .note }
 It is recommended to pre-allocate memory for the mass matrix using `reserve(N_elements)` method, where `N_elements` is the number of non-zero elements in the matrix. If the number of non-zeros is difficult to estimate, it is better to overestimate `N_elements` than underestimate it to avoid unnecessary copying and memory reallocations.
 
-For more information about defining the matrix in sparse format, refer to the [Sparse Matrix](sparse-matrix.html) section.
+For more information about defining the matrix in sparse format, refer to the [Sparse Matrix class](sparse-matrix.html) section.
 
 ## Identity mass matrix
 
