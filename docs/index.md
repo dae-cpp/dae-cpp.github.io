@@ -4,10 +4,11 @@ layout: home
 nav_order: 1
 ---
 
+![version](https://img.shields.io/badge/version-2.0.0-blue)
+
 <p align="center">
 <img src="../assets/images/logo.png" alt="dae-cpp logo" width="250"/>
 </p>
-
 
 {: .note }
 This is a massively reworked and updated version of `dae-cpp`, which is incompatible with the previous version (`1.x`). If your project still relies on the old `dae-cpp`, it is archived in the [legacy](https://github.com/dae-cpp/dae-cpp/tree/legacy) branch.
