@@ -1,6 +1,7 @@
 ---
 title: Jacobian Matrix class
 layout: default
+parent: Classes to define DAE system
 nav_order: 5
 ---
 
@@ -13,7 +14,7 @@ $$\mathbf{M}(t) \frac{\mathrm{d}\mathbf{x}}{\mathrm{d}t} = \mathbf{f}(\mathbf{x}
 
 with respect to $$\mathbf{x}$$.
 
-{: .note }
+{: .important }
 Providing the Jacobian matrix for the DAE solver is optional. If not provided by the user, the Jacobian matrix will be computed by the solver automatically, using algorithmic differentiation package [`autodiff`](https://autodiff.github.io/).
 However, for big DAE systems, it is highly recommended to provide manually (analytically) derived Jacobian. This can save a lot of computation time for the solver and significantly speed it up.
 
@@ -102,6 +103,9 @@ For more information about defining the matrix in sparse format, refer to the [S
 
 ## Automatic Jacobian matrix
 
+{: .important }
+*Automatic* (or *algorithmic*) differentiation is a [special technique](https://en.wikipedia.org/wiki/Automatic_differentiation) to compute the partial derivatives of a function by a computer program exactly (to working precision), by applying the [chain rule](https://en.wikipedia.org/wiki/Chain_rule). By automatic (algorithmic) Jacobian matrix in this documentation, we refer to the Jacobian computed using automatic differentiation.
+
 The solver provides a helper class `daecpp::JacobianAutomatic` to compute the Jacobian matrix for the given vector function $$\mathbf{f}(\mathbf{x}, t)$$ algorithmically using [`autodiff`](https://autodiff.github.io/) package.
 For relatively small systems, the user does not even need to define the Jacobian, not even automatic one. This will be handled by the solver itself. Behind the scenes, the solver will create an automatic Jacobian matrix object for the user, if analytic Jacobian is not provided.
 
@@ -130,4 +134,4 @@ std::cout << J.dense(N) << '\n';
 ```
 
 {: .highlight }
-User-defined vs analytic Jacobian comparison functionality (element by element) will be added in future versions of the solver.
+*User-defined* Jacobian vs *automatic* Jacobian comparison functionality (element by element) will be added in future versions of the solver.

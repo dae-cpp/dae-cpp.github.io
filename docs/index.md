@@ -10,7 +10,7 @@ nav_order: 1
 
 
 {: .note }
-This is a massively reworked and updated version of `dae-cpp`, which is incompatible with the previous version (1.x). If your project still relies on the old `dae-cpp`, it is archived in the [legacy](https://github.com/dae-cpp/dae-cpp/tree/legacy) branch.
+This is a massively reworked and updated version of `dae-cpp`, which is incompatible with the previous version (`1.x`). If your project still relies on the old `dae-cpp`, it is archived in the [legacy](https://github.com/dae-cpp/dae-cpp/tree/legacy) branch.
 
 ## What is `dae-cpp`
 

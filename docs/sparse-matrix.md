@@ -1,6 +1,7 @@
 ---
 title: Sparse Matrix class
 layout: default
+parent: Classes to define DAE system
 nav_order: 2
 ---
 

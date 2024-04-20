@@ -1,6 +1,7 @@
 ---
 title: Mass Matrix class
 layout: default
+parent: Classes to define DAE system
 nav_order: 3
 ---
 

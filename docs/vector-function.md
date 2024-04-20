@@ -1,6 +1,7 @@
 ---
 title: Vector Function class
 layout: default
+parent: Classes to define DAE system
 nav_order: 4
 ---
 
