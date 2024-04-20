@@ -7,7 +7,7 @@ nav_order: 4
 
 # Vector Function class
 
-Vector function class defines the (nonlinear) vector function (the RHS) $$\mathbf{f}(\mathbf{x}, t)$$ of the DAE system written in the matrix-vector form:
+The Vector function class defines the (nonlinear) vector function (the RHS) $$\mathbf{f}(\mathbf{x}, t)$$ of the DAE system written in the matrix-vector form:
 
 $$\mathbf{M}(t) \frac{\mathrm{d}\mathbf{x}}{\mathrm{d}t} = \mathbf{f}(\mathbf{x}, t).$$
 
@@ -35,6 +35,9 @@ The elements of vectors `x` and `f` can be accessed using square brackets `[]`.
 
 {: .note }
 The type of vectors `f` and `x` is `daecpp::state_type`, which is an alias of [`autodiff`](https://autodiff.github.io/)'s type used to perform automatic (algorithmic) differentiation of the vector function `f`. See [`dae-cpp` types](https://dae-cpp.github.io/prerequisites.html#dae-cpp-types) section.
+
+{: .important }
+The Vector Function class must not be used to save or post-process the solution vector `x` and time `t`. For this purpose, use the [Solution Manager](solution-manager.html) class.
 
 ## Examples
 

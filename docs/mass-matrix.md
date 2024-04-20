@@ -7,7 +7,7 @@ nav_order: 3
 
 # Mass Matrix class
 
-Mass matrix class defines the mass matrix $$\mathbf{M}(t)$$ of the DAE system written in the matrix-vector form:
+The Mass matrix class defines the mass matrix $$\mathbf{M}(t)$$ of the DAE system written in the matrix-vector form:
 
 $$\mathbf{M}(t) \frac{\mathrm{d}\mathbf{x}}{\mathrm{d}t} = \mathbf{f}(\mathbf{x}, t).$$
 

@@ -7,7 +7,7 @@ nav_order: 5
 
 # Jacobian Matrix class
 
-Jacobian matrix class defines the Jacobian matrix $$\mathbf{J}(\mathbf{x}, t)$$ of the DAE system.
+The Jacobian matrix class defines the Jacobian matrix $$\mathbf{J}(\mathbf{x}, t)$$ of the DAE system.
 This matrix can be obtained by differentiating the vector function (the RHS) $$\mathbf{f}(\mathbf{x}, t)$$ of the DAE system
 
 $$\mathbf{M}(t) \frac{\mathrm{d}\mathbf{x}}{\mathrm{d}t} = \mathbf{f}(\mathbf{x}, t)$$
@@ -39,6 +39,9 @@ Initially, matrix `J` is empty and should be filled with non-zero elements.
 
 {: .note }
 The type of vector `x` in the class definition above is `daecpp::state_vector`, which is an alias of `std::vector<float_type>` type. See [`dae-cpp` types](https://dae-cpp.github.io/prerequisites.html#dae-cpp-types) section for more information.
+
+{: .important }
+The Jacobian Matrix class must not be used to save or post-process the solution vector `x` and time `t`. For this purpose, use the [Solution Manager](solution-manager.html) class.
 
 ## Examples
 
