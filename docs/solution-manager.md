@@ -4,14 +4,11 @@ layout: default
 nav_order: 6
 ---
 
-Work in progress
-{: .label .label-red }
-
 # Solution Manager class
 
-The Solution Manager class can serve as a solution observer and/or as an event function that stops computation when a certain event occurs. Solution Manager functor will be called every time step, providing the time `t` and the corresponding solution `x` for the user for further post-processing. If the functor returns an integer which is not equal to `0` (i.e., `true`), the computation will immediately stop.
+The Solution Manager class can serve as a solution observer and/or as an event function that stops computation when a certain event occurs. Solution Manager functor will be called every time step, providing the time `t` and the corresponding solution vector `x` for the user for further post-processing. If the functor returns an integer which is not equal to `0` (i.e., `true`), the computation will immediately stop.
 
-The solver provides a derived from the Solution Manager class called [`daecpp::Solution`](#solution-class), which writes the solution vector `x` and time `t` every time step or every specific time defined by the user into the [solution holder](#solution-holder) object. The user can access this object for further post-processing, printing the solution on the screen or writing it to a file.
+The solver provides a derived from the Solution Manager class called [`daecpp::Solution`](#solution-class), which writes the solution vector `x` and time `t` every time step or every specific times defined by the user into the [Solution Holder](#solution-holder) object. The user can access this object for further post-processing, printing the solution on the screen or writing it to a file.
 
 {: .important }
 By default, the DAE solver does nothing with the solution, i.e., it does not print it on the screen or save it anywhere. It is the user's responsibility to define a Solution Manager object that processes the solution (saves it to a vector, to a file, etc.). The solver, however, provides a basic Solution Manager called [`daecpp::Solution`](#solution-class).
@@ -52,7 +49,7 @@ In the following example, we define a custom Solution Manager that performs the 
 ```cpp
 class UserDefinedSolutionManager : public daecpp::SolutionManager
 {
-    daecpp::state_vector &m_x_sol; // Vector of solution x[0]
+    daecpp::state_vector &m_x_sol; // Vector of solutions x[0]
     std::vector<double> &m_t_sol;  // Vector of the corresponding times t
 
 public:
@@ -83,6 +80,79 @@ Vectors `x_sol` and `t_sol` should be defined before calling the `UserDefinedSol
 
 Similar to the mass matrix, vector function, Jacobian matrix definitions, inhereting the `daecpp::SolutionManager` class is a good practice (it serves as a blueprint), but it is not necessary. The user is allowed to define custom Solution Managers without inhereting `daecpp::SolutionManager`.
 
-## Solution holder
+----
 
-## Solution class
+# Solution Holder class
+
+The Solution Holder class `daecpp::SolutionHolder` is a helper class that stores solution vectors `x` and the corresponding times `t`. In addition, it provides a utility method that prints the entire solution or selected elements of the solution versus time on the screen.
+The objects of the Solution Holder class can be used with the user-defined Solution Managers or together with the [Solution](#solution-class) class.
+
+## Solution Holder class public data
+
+| Variable | Type | Description |
+| -------- | ---- | ----------- |
+| `x`      | [`std::vector<daecpp::state_vector>`](prerequisites.html#dae-cpp-types) | Vector of solution vectors |
+| `t`      | `std::vector<double>` | Vector of the corresponding solution times |
+
+Thus, for example, the solution time `t_end` (time at the final time step) and the corresponding solution `x_end` can be accessed by
+
+```cpp
+daecpp::SolutionHolder sol;
+
+double t_end = sol.t.back();               // Time `t_end` at the last time step
+daecpp::state_vector x_end = sol.x.back(); // Solution vector at time `t_end`
+```
+
+## Solution Holder class methods
+
+## `void print(const std::vector<std::size_t> &ind = {}) const`
+
+<br>
+A helper function to print `x` and `t` on screen.
+By default, prints the entire vector `x` and the corresponding time `t`.
+
+### Parameter:
+
+- (optional) `ind` - vector of solution indices (out of range indices will be ignored) for printing (`std::vector<std::size_t>`)
+
+### Example:
+
+```cpp
+daecpp::SolutionHolder sol;
+
+// Prints only 0th, 1st, and 42nd elements of the solution vector
+sol.print({0, 1, 42});
+```
+
+----
+
+# Solution class
+
+Solution class `daecpp::Solution` is derived from `daecpp::SolutionManager` and serves as a basic solution *observer* that writes solution vectors `x` and the corresponding times `t` every time step or every specific time from `t_output` vector (that can be optionally provided in the constructor) into `daecpp::SolutionHolder` class object. The Solution class is also used in the [`daecpp::System`](solve.html) class as a default Solution Manager.
+
+## Solution class constructor
+
+## `Solution(SolutionHolder &sol, const std::vector<double> &t_output)`
+
+<br>
+Constructs Solution class object.
+
+### Parameters:
+
+- `sol` - [`daecpp::SolutionHolder`](#solution-holder-class) object that will store the solution
+- (optional) `t_output` - a vector of output times for writing (`std::vector<double>`)
+
+### Example:
+
+```cpp
+daecpp::SolutionHolder sol; // Solution Holder
+daecpp::Solution mgr(sol);  // Solution Manager
+```
+
+Alternatively, in order to write the solution at time `t_output`, which is equal to, for example, `1.0`, `2.0`, and `3.0` only:
+
+```cpp
+daecpp::Solution mgr(sol, {1.0, 2.0, 3.0}); // Solution Manager that filters time `t`
+```
+
+After solving the system, the solution will be stored in the `sol` object ([Solution Holder](#solution-holder-class)).

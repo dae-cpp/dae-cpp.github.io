@@ -106,7 +106,7 @@ For more information about defining the matrix in sparse format, refer to the [S
 
 ## Automatic Jacobian matrix
 
-{: .important }
+{: .note }
 *Automatic* (or *algorithmic*) differentiation is a [special technique](https://en.wikipedia.org/wiki/Automatic_differentiation) to compute the partial derivatives of a function by a computer program exactly (to working precision), by applying the [chain rule](https://en.wikipedia.org/wiki/Chain_rule). By automatic (algorithmic) Jacobian matrix in this documentation, we refer to the Jacobian computed using automatic differentiation.
 
 The solver provides a helper class `daecpp::JacobianAutomatic` to compute the Jacobian matrix for the given vector function $$\mathbf{f}(\mathbf{x}, t)$$ algorithmically using [`autodiff`](https://autodiff.github.io/) package.
