@@ -10,4 +10,30 @@ All notable user-facing changes to the `dae-cpp` project are documented in this 
 
 ## v2.0.0
 
-Initial version of the library. Consider this version as public beta.
+New
+{: .label .label-green }
+
+Redesigned version of the library. Consider this version as a public beta.
+Please report any bugs using GitHub [issues](https://github.com/dae-cpp/dae-cpp/issues).
+
+----
+
+## v1.1
+
+Retired
+{: .label .label-yellow }
+
+{: .highlight }
+Version `1.x` has been archived in the [legacy](https://github.com/dae-cpp/dae-cpp/tree/legacy) branch of the repository.
+
+- Tweaked the DAE solver
+- Added more examples
+
+----
+
+## v1.0
+
+Retired
+{: .label .label-yellow }
+
+First working version of the DAE solver.
