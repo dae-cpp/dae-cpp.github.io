@@ -13,7 +13,3 @@ TODO:
 
 - [ ] Get solver version
 - [ ] Timer
-
-## Subtitle
-
-Text
