@@ -6,7 +6,7 @@ nav_order: 7
 
 # Solver Options class
 
-The Solver Options class, `daecpp::SolverOptions,` allows the user to redefine and fine-tune the DAE solver options. To do so, the user should create an object of the Solver Options class, update parameters of interest by accessing public variables (see [example](#example) below), and then provide the updated object to the solver function `solve`.
+The Solver Options class, `daecpp::SolverOptions`, allows the user to redefine and fine-tune the DAE solver options. To do so, the user should create an object of the Solver Options class, update parameters of interest by accessing public variables (see [example](#example) below), and then provide the updated object to the solver function `solve`.
 
 The table below contains a complete list of all options accessible via the Solver Options class.
 

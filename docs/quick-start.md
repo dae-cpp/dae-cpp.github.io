@@ -51,6 +51,14 @@ Below is a simplified procedure of defining and solving the given DAE system usi
 #include <dae-cpp/solver.hpp>
 ```
 
+Optionally, the `daecpp` namespace can be added to the project:
+
+```cpp
+using namespace daecpp;
+```
+
+Alternatively, use `daecpp::` prefix for all `dae-cpp` types and classes.
+
 ### Step 1. Define the mass matrix of the system
 
 The mass matrix contains only one non-zero element:
