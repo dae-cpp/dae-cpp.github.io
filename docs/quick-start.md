@@ -124,7 +124,7 @@ or simply
 my_system.solve({0, 1}, 1.0);
 ```
 
-Solution vector of vectors `x` and the corresponding vector of times `t` will be stored in `my_system.sol.x` and `my_system.sol.t`, respectively.
+Vector of solution vectors `x` and the corresponding vector of times `t` will be stored in `my_system.sol.x` and `my_system.sol.t`, respectively.
 
 The entire C++ code is provided in the [Quick Start example](https://github.com/dae-cpp/dae-cpp/blob/master/examples/quick_start/quick_start.cpp).
 
@@ -156,11 +156,13 @@ struct MyJacobian
 };
 ```
 
-Then add the user-defined Jacobian to the DAE system definition:
+Then add the user-defined Jacobian to the `solve()` method:
 
 ```cpp
-System my_system(mass, rhs, MyJacobian()); // Defines the DAE system with Jacobian
+my_system.solve(x0, t, MyJacobian()); // Starts the computation with Jacobian
 ```
+
+Defining the analytic Jacobian matrix can significantly speed up the computation (especially for big systems).
 
 For more information about defining the Jacobian matrix, see [Jacobian Matrix class](jacobian-matrix.html) description.
 
@@ -169,8 +171,8 @@ For more information about defining the Jacobian matrix, see [Jacobian Matrix cl
 For example, restrict the maximum time step:
 
 ```cpp
-my_system.opt.dt_max = 0.1;   // Update `dt_max`
-my_system.solve({0, 1}, 1.0); // Restart the computation
+my_system.opt.dt_max = 0.1;           // Update `dt_max`
+my_system.solve(x0, t, MyJacobian()); // Restart the computation
 ```
 
 See [Solver Options class](solver-options.html) description for more information.

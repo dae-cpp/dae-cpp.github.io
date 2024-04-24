@@ -7,7 +7,7 @@ nav_order: 3
 
 # Mass Matrix class
 
-The Mass matrix class defines the mass matrix $$\mathbf{M}(t)$$ of the DAE system written in the matrix-vector form:
+The Mass Matrix class defines the mass matrix $$\mathbf{M}(t)$$ of the DAE system written in the matrix-vector form:
 
 $$\mathbf{M}(t) \frac{\mathrm{d}\mathbf{x}}{\mathrm{d}t} = \mathbf{f}(\mathbf{x}, t).$$
 
@@ -91,7 +91,7 @@ In the example above, we created an object `identityMatrix` which holds an ident
 
 ## Zero mass matrix
 
-Similar ot the example above, a helper class `daecpp::MassMatrixZero` can be used to construct a zero matrix (a matrix filled by zeros only). This matrix can be useful to solve pure algebraic systems without time derivatives.
+Similar ot the example above, a helper class `daecpp::MassMatrixZero` can be used to construct a zero matrix (a matrix filled with zeros only). This matrix can be useful to solve pure algebraic systems without time derivatives.
 
 ```cpp
 daecpp::MassMatrixZero zeroMatrix; // Creates empty mass matrix for algebraic system

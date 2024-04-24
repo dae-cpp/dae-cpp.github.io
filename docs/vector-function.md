@@ -7,7 +7,7 @@ nav_order: 4
 
 # Vector Function class
 
-The Vector function class defines the (nonlinear) vector function (the RHS) $$\mathbf{f}(\mathbf{x}, t)$$ of the DAE system written in the matrix-vector form:
+The Vector Function class defines the (nonlinear) vector function (the RHS) $$\mathbf{f}(\mathbf{x}, t)$$ of the DAE system written in the matrix-vector form:
 
 $$\mathbf{M}(t) \frac{\mathrm{d}\mathbf{x}}{\mathrm{d}t} = \mathbf{f}(\mathbf{x}, t).$$
 

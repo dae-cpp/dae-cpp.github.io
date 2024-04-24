@@ -78,7 +78,7 @@ public:
 {: .warning }
 Vectors `x_sol` and `t_sol` should be defined before calling the `UserDefinedSolutionManager` constructor and must live until the end of the computation. They shouldn't be passed to the constructor as temporary objects and must **not** go out of scope before finishing the system solving (otherwise, this will lead to dangling references `&m_x_sol` and `&m_t_sol` in the class definition above). 
 
-Similar to the mass matrix, vector function, Jacobian matrix definitions, inhereting the `daecpp::SolutionManager` class is a good practice (it serves as a blueprint), but it is not necessary. The user is allowed to define custom Solution Managers without inhereting `daecpp::SolutionManager`.
+Similar to the mass matrix, vector function and Jacobian matrix definitions, inhereting the `daecpp::SolutionManager` class is a good practice (it serves as a blueprint), but it is not necessary. The user is allowed to define custom Solution Managers without inhereting `daecpp::SolutionManager`.
 
 ----
 
@@ -128,7 +128,7 @@ sol.print({0, 1, 42});
 
 # Solution class
 
-Solution class `daecpp::Solution` is derived from `daecpp::SolutionManager` and serves as a basic solution *observer* that writes solution vectors `x` and the corresponding times `t` every time step or every specific time from `t_output` vector (that can be optionally provided in the constructor) into `daecpp::SolutionHolder` class object. The Solution class is also used in the [`daecpp::System`](solve.html) class as a default Solution Manager.
+Solution class `daecpp::Solution` is derived from `daecpp::SolutionManager` and serves as a basic solution *observer* that writes solution vectors `x` and the corresponding times `t` every time step or every specific time from `t_output` vector (that can be optionally provided in the constructor) into `daecpp::SolutionHolder` class object. The Solution class is also used in the [`daecpp::System`](solve.html#system-class) class as a default Solution Manager.
 
 ## Solution class constructor
 

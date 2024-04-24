@@ -7,7 +7,7 @@ nav_order: 5
 
 # Jacobian Matrix class
 
-The Jacobian matrix class defines the Jacobian matrix $$\mathbf{J}(\mathbf{x}, t)$$ of the DAE system.
+The Jacobian Matrix class defines the Jacobian matrix $$\mathbf{J}(\mathbf{x}, t)$$ of the DAE system.
 This matrix can be obtained by differentiating the vector function (the RHS) $$\mathbf{f}(\mathbf{x}, t)$$ of the DAE system
 
 $$\mathbf{M}(t) \frac{\mathrm{d}\mathbf{x}}{\mathrm{d}t} = \mathbf{f}(\mathbf{x}, t)$$
@@ -112,7 +112,7 @@ For more information about defining the matrix in sparse format, refer to the [S
 The solver provides a helper class `daecpp::JacobianAutomatic` to compute the Jacobian matrix for the given vector function $$\mathbf{f}(\mathbf{x}, t)$$ algorithmically using [`autodiff`](https://autodiff.github.io/) package.
 For relatively small systems, the user does not even need to define the Jacobian, not even automatic one. This will be handled by the solver itself. Behind the scenes, the solver will create an automatic Jacobian matrix object for the user, if analytic Jacobian is not provided.
 
-However, in some cases, it can be difficult to derive the Jacobian matrix analytically. Or if the user has provided the Jacobian matrix, but the solution diverges, which means there might be a bug in the Jacobian matrix definition. In these cases, the user can try to feed the automatic Jacobian matrix to the solver explicitly, or print out (or save to a file) both user-defined and automatic Jacobians for comparison to find possible errors in the matrix definition.
+For big systems, it is highly recommended to provide analytic (user-defined) Jacobian. However, in some cases, it can be difficult to derive the Jacobian matrix analytically. Or the user has provided the Jacobian matrix, but the solution diverges, which means there might be a bug in the Jacobian matrix definition. In these cases, the user can try to feed the automatic Jacobian matrix to the solver explicitly, or print out (or save to a file) both user-defined and automatic Jacobians for comparison to find possible errors in the matrix definition.
 
 In order to construct an automatic Jacobian matrix object, the user needs to provide the vector function object `rhs` (see [Vector Function class](vector-function.html) section):
 

@@ -23,13 +23,13 @@ to be solved in the interval $$t \in [0, t_\mathrm{end}]$$ with the given initia
 
 ### How does it work
 
-The DAE solver uses implicit Backward Differentiation Formulae (BDF) of orders I-IV with adaptive time stepping. Every time step, the BDF integrator reduces the original DAE system to a system of nonlinear equations, which is solved using iterative [Quasi-Newton](https://en.wikipedia.org/wiki/Quasi-Newton_method) root-finding algorithm. The Quasi-Newton method reduces the problem further down to a system of linear equations, which is solved using [Eigen](https://eigen.tuxfamily.org/index.php?title=Main_Page), a versatile and fast C++ template library for linear algebra.
+The DAE solver uses implicit Backward Differentiation Formulae (BDF) of orders I-IV with adaptive time stepping. Every time step, the BDF integrator converts the original DAE system to a system of nonlinear equations, which is solved using iterative [Quasi-Newton](https://en.wikipedia.org/wiki/Quasi-Newton_method) root-finding algorithm. The Quasi-Newton method reduces the problem further down to a system of linear equations, which is solved using [Eigen](https://eigen.tuxfamily.org/index.php?title=Main_Page), a versatile and fast C++ template library for linear algebra.
 Eigen's sparse solver performs two steps: factorization (decomposition) of the Jacobian matrix and the linear system solving itself. This gives us the numerical solution of the entire DAE system at the current time step. Finally, depending on the convergence rate of the Quasi-Newton method, variability of the solution, and user-defined accuracy, the DAE solver adjusts the time step size and initiates a new iteration in time.
 
 ### The main features of the solver
 
 - Header only, no pre-compilation required.
-- Uses automatic (algorithmic, exact) differentiation ([autodiff](https://autodiff.github.io/)) to compute the Jacobian matrix, if it is not provided by the user.
+- Uses [automatic](https://en.wikipedia.org/wiki/Automatic_differentiation) (algorithmic, exact) differentiation (using [autodiff](https://autodiff.github.io/)) to compute the Jacobian matrix, if it is not provided by the user.
 - Fourth-order implicit BDF time integrator that preserves accuracy even when the time step rapidly changes.
 - A very flexible and customizable variable time stepping algorithm based on the solution stability and variability.
 - Mass matrix can be non-static (can depend on time) and it can be singular.

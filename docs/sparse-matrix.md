@@ -24,7 +24,7 @@ std::cout << M.dense(3) << '\n'; // Prints matrix M on screen assuming it's a 3x
 The three-array format defines a sparse matrix using two (unsigned) integer vectors of indices `i` and `j` and one floating-point vector `A` of the corresponding non-zero elements of the matrix. Only non-zero elements of the sparse matrix should be defined and stored. Theoretically, all three arrays can be empty. This will define a zero matrix where all elements are zeros.
 
 {: .note }
-All three arrays `i`, `j`, and `A` should be the same size. This can be (and will be) checked by calling the `void check()` method of the class `daecpp::sparse_matrix`.
+All three arrays `i`, `j`, and `A` should be the same size. This can be (and will be) checked by calling the [`void check()`](#void-check-const) method of the class `daecpp::sparse_matrix`.
 
 Here is an example of a sparse matrix:
 
@@ -64,7 +64,7 @@ The row and column numeration starts from `0`.
 For `float_type` and `int_type` definition, refer to the [Prerequisites](prerequisites.html#dae-cpp-types) section.
 
 {: .note }
-All three vectors are initially empty an NOT preallocated
+All three vectors are initially empty and **not** preallocated.
 
 ## Sparse Matrix class methods
 
@@ -189,4 +189,4 @@ Converts matrix from `dae-cpp` three-array format to `Eigen::SparseMatrix` forma
 ## `std::size_t N_elements() const`
 
 <br>
-Returns the number of non-zero elements in the matrix.
+Returns the number of non-zero elements in the matrix (including duplicates, if any).

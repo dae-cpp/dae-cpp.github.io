@@ -18,7 +18,7 @@ In this section, we consider both approaches to start the computation.
 
 # System class
 
-The `System` class serves as a wrapper for lower level [`daecpp::solve(...)`](#daecppsolve-function) function calls. Contains the [Solver Options](solver-options.html) and [Solution Holder](solution-manager.html#solution-holder-class) objects.
+The `System` class serves as a wrapper for lower level [`daecpp::solve(...)`](#daecppsolve-function) function calls. The class allows the user to easily set up the DAE system, solve it, and get the result. The class already contains the [Solver Options](solver-options.html) and [Solution Holder](solution-manager.html#solution-holder-class) objects.
 
 ## System class public members
 
@@ -51,8 +51,8 @@ Here is the summary of the `solve(...)` method:
 | Parameter | Type(s) | Description |
 | --------- | ------- | ----------- |
 | `x0` | `const daecpp::state_vector &` | The initial condition (initial state vector) |
-| `t` | `const double` **or** `const std::vector<double> &` | Integration interval `[0, t]` **or** a vector of integration times (useful if the user need the output at particular times `t`) |
-| `jacobian` | User-defined [Jacobian Matrix](jacobian-matrix.html) | **(Optional)** Jacobian matrix (matrix of the RHS derivatives) |
+| `t` | `const double` **or** `const std::vector<double> &` | Integration interval `[0, t]` **or** a vector of integration times (useful if the user needs the output at particular times `t`) |
+| `jacobian` | User-defined [Jacobian Matrix](jacobian-matrix.html) | **(Optional)** User-defined Jacobian matrix (matrix of the RHS derivatives) |
 
 ## Examples
 
@@ -82,7 +82,7 @@ int status = my_system.solve({0, 1}, 1.0, MyJacobian()); // Solves the system wi
 
 if(!status)
 {
-    my_system.sol.print(); // Prints solution on screen
+    my_system.sol.print(); // Prints solution on screen if solution is successfull
 }
 ```
 
@@ -110,9 +110,9 @@ Here is the summary of the `solve(...)` function:
 | `rhs` | User-defined [Vector Function](vector-function.html) | Vector function (the RHS) of the DAE system |
 | `jac` | User-defined [Jacobian Matrix](jacobian-matrix.html) | **(Optional)** Jacobian matrix (matrix of the RHS derivatives) |
 | `x0` | `const daecpp::state_vector &` | The initial condition (initial state vector) |
-| `t` | `const double` **or** `const std::vector<double> &` | Integration interval `[0, t]` **or** a vector of integration times (useful if the user need the output at particular times `t`) |
+| `t` | `const double` **or** `const std::vector<double> &` | Integration interval `[0, t]` **or** a vector of integration times (useful if the user needs the output at particular times `t`) |
 | `sol_mgr` | User-defined [Solution Manager](solution-manager.html) | Solution manager (solution observer and/or event function) |
-| `opt` | `const daecpp::SolverOptions &` | **(Optional)** Solver options |
+| `opt` | `const daecpp::SolverOptions &` | **(Optional)** [Solver options](solver-options.html) |
 
 ## Exit codes
 
