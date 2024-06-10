@@ -32,3 +32,13 @@ Perovskite model source file example: [perovskite.cpp](https://github.com/dae-cp
 A more sophisticated example, where we solve a big DAE system that describes the potential distribution and ion concentration in a perovskite solar cell.
 We show how to add parameters to the user-defined mass matrix, vector function, and Jacobian.
 This example also demonstrates a custom [Solution Manager](solution-manager.html) implementation that can work as an observer and event function.
+
+## Flame propagation model
+
+Flame propagation source file example: [flame_propagation.cpp](https://github.com/dae-cpp/dae-cpp/blob/master/examples/flame_propagation/flame_propagation.cpp)
+{: .fs-5 .fw-400 }
+
+When you light a match, the ball of flame grows rapidly until it reaches a critical size.
+Then it remains at that size because the amount of oxygen being consumed by the combustion
+in the interior of the ball balances the amount of oxigen available through the surface.
+This example solves **stiff** equation of flame propagation for the scalar variable $$y(t)$$ which represents the radius of the ball.

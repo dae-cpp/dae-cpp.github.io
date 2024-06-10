@@ -25,7 +25,7 @@ Then build and run the tests:
 
 ```bash
 mkdir build && cd build
-cmake ..
+cmake .. -DCMAKE_BUILD_TYPE=Release
 make
 ctest
 ```
