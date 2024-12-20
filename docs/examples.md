@@ -42,3 +42,21 @@ When you light a match, the ball of flame grows rapidly until it reaches a criti
 Then it remains at that size because the amount of oxygen being consumed by the combustion
 in the interior of the ball balances the amount of oxigen available through the surface.
 This example solves **stiff** equation of flame propagation for the scalar variable $$y(t)$$ which represents the radius of the ball.
+
+## Jacobian matrix shape
+
+Jacobian matrix shape source file example: [jacobian_shape.cpp](https://github.com/dae-cpp/dae-cpp/blob/master/examples/jacobian_shape/jacobian_shape.cpp)
+{: .fs-5 .fw-400 }
+
+This example demonstrates how to define the shape (structure) of the Jacobian matrix.
+I.e., instead of providing the full analytic Jacobian (or not providing it at all, which is slow if the system is big), the user can specify the positions of non-zero elements in the Jacobian.
+The solver will use automatic differentiation for the specified elements only.
+This works (nearly) as fast as the analytic Jacobian without requiring the user to differentiate the vector function manually.
+
+## Checking user-defined Jacobian
+
+Jacobian matrix checking source file example: [jacobian_compare.cpp](https://github.com/dae-cpp/dae-cpp/blob/master/examples/jacobian_compare/jacobian_compare.cpp)
+{: .fs-5 .fw-400 }
+
+In this example, we do not solve any DAEs. Instead, we define a simple vector function, the corresponding Jacobian matrix, and then we use a built-in helper class `JacobianCompare` to compare our manually derived Jacobian with the one computed algorithmically from the vector function.
+We will make a few mistakes in the analytic Jacobian on purpose to see what information `JacobianCompare` can provide.

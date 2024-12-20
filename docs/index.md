@@ -4,7 +4,7 @@ layout: home
 nav_order: 1
 ---
 
-![version](https://img.shields.io/badge/version-2.0.1-blue)
+![version](https://img.shields.io/badge/version-2.1.0-blue)
 
 <p align="center">
 <img src="../assets/images/logo.png" alt="dae-cpp logo" width="250"/>
