@@ -80,3 +80,42 @@ struct UserDefinedVectorFunction
     }
 };
 ```
+
+## Element-by-element vector function to define the Jacobian shape
+
+For relatively small systems, there is no need to provide the Jacobian matrix (neither its shape), as it will be computed fast enough automatically.
+If the user decides to provide manually derived Jacobian, it can be done using [Jacobian Matrix](jacobian-matrix.html) class.
+However, if the user provides the [shape of the Jacobian matrix](jacobian-matrix.html#jacobian-matrix-shape), the vector function must be defined element-by-element, so the solver can call specific elements of the vector function individually to perform automatic differentiation.
+
+The vector function from the [Examples](#examples) section above can be defined element-by-element by inheriting the `daecpp::VectorFunctionElements` class:
+
+```cpp
+struct UserDefinedVectorFunction : daecpp::VectorFunctionElements
+{
+    daecpp::dual_type equations(const daecpp::state_type &x, const double t, const daecpp::int_type i) const
+    {
+        if (i == 0)
+            return x[2] + 1.0; // z + 1
+        else if (i == 1)
+            return x[0] * x[0] + x[1]; // x*x + y
+        else if (i == 2)
+            return 2.0 * t // 2*t
+        else
+        {
+            // This should never happen
+            ERROR("Index i in UserDefinedVectorFunction is out of boundaries");
+        }
+    }
+};
+```
+
+Unlike `daecpp::VectorFunction`, here we define each element of the vector function individually, depending on the index `i`.
+This obviously comes with some computational time penalty compared to the case where we define the entire vector function as an array.
+However, defining the RHS element-by-element like in the example above will allow us to define only the positions of non-zero elements of the Jacobian without manually differentiating the entire vector function (which in some cases can be difficult and error-prone).
+
+{: .note }
+The class `VectorFunctionElements` is abstract, where `dual_type equations(const state_type &x, const double t, const int_type i) const` function must be implemented in the derived class.
+
+After defining the vector function this way, define the [Jacobian matrix shape](jacobian-matrix.html#jacobian-matrix-shape).
+
+For more detailed example, refer to the [Jacobian shape](https://github.com/dae-cpp/dae-cpp/blob/master/examples/jacobian_shape/jacobian_shape.cpp) example.

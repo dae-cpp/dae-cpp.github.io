@@ -136,5 +136,88 @@ automaticJacobian(J, x, t);
 std::cout << J.dense(N) << '\n';
 ```
 
-{: .highlight }
-*User-defined* Jacobian vs *automatic* Jacobian comparison functionality (element by element) will be added in future versions of the solver.
+## Jacobian matrix shape
+
+If defining the Jacobian matrix manually as it is described above is not a feasible task (e.g., due to a very complex non-linear RHS), the solver allows the user to specify only the positions of non-zero elements of the Jacobian matrix (i.e., the *Jacobian matrix shape*). In this case, all the derivatives will be calculated automatically with a very small computation time penalty (compared to the manually derived analytic Jacobian).
+
+To define the Jacobian matrix shape, the user needs to define the vector function (RHS) of the system in an element-by-element (equation-by-equation) way using a custom class derived from [`daecpp::VectorFunctionElements`](vector-function.html#element-by-element-vector-function-to-define-the-jacobian-shape).
+After that, use another class derived from `daecpp::JacobianMatrixShape` to specify the positions of each non-zero element in the Jacobian matrix.
+
+Class `daecpp::JacobianMatrixShape` contains the following helper methods:
+
+- `void add_element(const daecpp::int_type ind_i, const daecpp::int_type ind_j)` to define a single non-zero element *(i, j)*
+- `void add_element(const daecpp::int_type ind_i, const std::vector<int_type> &ind_j)` to define an entire row *i* of non-zero elements using a vector of indices *j*
+- `void clear()` to clear the array of non-zero elements
+- `void reserve(const daecpp::int_type N_elements)` to reserve memory for `N_elements` non-zero elements of the Jacobian (which is recommended)
+
+The constructor of `daecpp::JacobianMatrixShape` takes the vector function object derived from [`daecpp::VectorFunctionElements`](vector-function.html#element-by-element-vector-function-to-define-the-jacobian-shape).
+
+Here is a simple example of defining 3 non-zero elements of the Jacobian:
+
+```cpp
+struct UserDefinedJacobianShape : daecpp::JacobianMatrixShape<UserDefinedRHS>
+{
+    explicit UserDefinedJacobianShape(UserDefinedRHS rhs) : daecpp::JacobianMatrixShape(rhs)
+    {
+        reserve(3);             // Reserves memory for 3 non-zero elements
+        add_element(0, 1);      // Adds element (0, 1), e.g., row 0, column 1
+        add_element(1, {0, 1}); // Adds elements (1, 0) and (1, 1)
+    }
+};
+```
+
+{: .important }
+Note that the RHS should be defined using [`daecpp::VectorFunctionElements`](vector-function.html#element-by-element-vector-function-to-define-the-jacobian-shape), so the solver can call specific elements of the vector function individually to perform automatic differentiation element-by-element efficiently.
+
+For more details, refer to the [Jacobian shape](https://github.com/dae-cpp/dae-cpp/blob/master/examples/jacobian_shape/jacobian_shape.cpp) example.
+
+## Jacobian matrix check
+
+User-defined Jacobians defined either analytically or using Jacobian shape can be conveniently compared to fully automatic Jacobian for debug purposes.
+This can be achieved by using `daecpp::JacobianCompare` helper class.
+The constructor of this class takes the user-defined Jacobian (defined analytically or from the Jacobian shape) and the vector function (RHS).
+Then the object of the `daecpp::JacobianCompare` class can be called as a functor with the given state `x` and, optionally, time `t`.
+
+Consider the following example:
+
+```cpp
+// Fill vectors x at which the Jacobian matrix will be tested
+daecpp::state_vector x0 = {1.0, 2.0, 3.0, 4.0};
+daecpp::state_vector x1 = {-0.5, -0.1, 0.5, 0.1};
+
+// Check user-defined Jacobian at `x0` and `x1` and times t = 1 and 2
+{
+    auto jac_comparison = daecpp::JacobianCompare(UserJacobian(), UserRHS());
+
+    auto N_errors_1 = jac_comparison(x0, 1.0);
+    auto N_errors_2 = jac_comparison(x1, 2.0);
+}
+```
+
+The functor `jac_comparison` returns the number of errors found in the Jacobian.
+It also prints on screen a summary of all inconsistencies found in the user-defined Jacobian compared to the fully automatic one.
+An example of such output is given below:
+
+```txt
+Jacobian matrix comparison summary at time t = 1:
+-- Found 4 difference(s) compared to the automatic (reference) Jacobian:
+----------------------------------------------------------------------------------------
+ Row        | Column     | Reference value    | User-defined value | Absolute error
+------------+------------+--------------------+--------------------+--------------------
+ 2          | 0          | 0.540302           | 0                  | -0.540302
+ 2          | 1          | 0                  | 0.540302           | 0.540302
+ 0          | 3          | 0.5                | 1                  | 0.5
+ 3          | 3          | 1                  | 0                  | -1
+----------------------------------------------------------------------------------------
+```
+
+Here we can see that in this example:
+
+- element (2, 1) should be (2, 0)
+- element (0, 3) is incorrect (should be 0.5, not 1)
+- element (3, 3) is not defined at all
+
+{: .note }
+Jacobian comparisons are element-by-element and hence can be slow. These comparisons are for the debug purposes only and should be removed from the production runs.
+
+For more details, refer to the [Jacobian compare](https://github.com/dae-cpp/dae-cpp/blob/master/examples/jacobian_compare/jacobian_compare.cpp) example.

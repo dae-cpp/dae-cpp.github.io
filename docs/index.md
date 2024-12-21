@@ -30,6 +30,7 @@ Eigen's sparse solver performs two steps: factorization (decomposition) of the J
 
 - Header only, no pre-compilation required.
 - Uses [automatic](https://en.wikipedia.org/wiki/Automatic_differentiation) (algorithmic, exact) differentiation (using [autodiff](https://autodiff.github.io/)) to compute the Jacobian matrix, if it is not provided by the user.
+- The user can provide analytically derived Jacobian or the Jacobian matrix shape (positions of non-zero elements) to significantly speed up the computation for big systems.
 - Fourth-order implicit BDF time integrator that preserves accuracy even when the time step rapidly changes.
 - A very flexible and customizable variable time stepping algorithm based on the solution stability and variability.
 - Mass matrix can be non-static (can depend on time) and it can be singular.
