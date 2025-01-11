@@ -30,4 +30,5 @@ using namespace daecpp;
 | `daecpp::float_type` | `double` (default), <br> `float` if `DAECPP_SINGLE` is defined | Floating point scalar, used for sparse matrix coefficients |
 | `daecpp::state_vector` | `std::vector<float_type>` | State vector, used, for example, to define the initial condition |
 | `daecpp::state_type` | `autodiff::VectorXreal` | State vector, used for the [vector function](vector-function.html) definition so that it can be automatically (algorithmically) differentiated using [`autodiff`](https://autodiff.github.io/) package |
-| `daecpp::dual_type` | `autodiff::real` | Floating point "dual" number, used in the vector function for automatic differentiation |
+| `daecpp::state_value` | `autodiff::real1st` | Floating point "dual" number, used in the vector function for automatic differentiation |
+| `daecpp::dual_type` | `autodiff::real1st` | (DEPRECATED) Floating point "dual" number, used in the vector function for automatic differentiation |

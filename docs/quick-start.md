@@ -164,6 +164,8 @@ my_system.solve(x0, t, MyJacobian()); // Starts the computation with Jacobian
 
 Defining the analytic Jacobian matrix can significantly speed up the computation (especially for big systems).
 
+If deriving the Jacobian matrix manually is not a feasible task (e.g., due to a very complex non-linear RHS), the solver allows the user to specify only the positions of non-zero elements of the Jacobian matrix (i.e., the Jacobian matrix shape). All the derivatives will be calculated automatically with a very small computation time penalty (compared to the manually derived analytic Jacobian).
+
 For more information about defining the Jacobian matrix, see [Jacobian Matrix class](jacobian-matrix.html) description.
 
 ### (Optional) Step 6. Tweak the solver options

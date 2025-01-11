@@ -92,7 +92,7 @@ The vector function from the [Examples](#examples) section above can be defined 
 ```cpp
 struct UserDefinedVectorFunction : daecpp::VectorFunctionElements
 {
-    daecpp::dual_type equations(const daecpp::state_type &x, const double t, const daecpp::int_type i) const
+    daecpp::state_value equations(const daecpp::state_type &x, const double t, const daecpp::int_type i) const
     {
         if (i == 0)
             return x[2] + 1.0; // z + 1
@@ -114,7 +114,7 @@ This obviously comes with some computational time penalty compared to the case w
 However, defining the RHS element-by-element like in the example above will allow us to define only the positions of non-zero elements of the Jacobian without manually differentiating the entire vector function (which in some cases can be difficult and error-prone).
 
 {: .note }
-The class `VectorFunctionElements` is abstract, where `dual_type equations(const state_type &x, const double t, const int_type i) const` function must be implemented in the derived class.
+The class `VectorFunctionElements` is abstract, where `state_value equations(const state_type &x, const double t, const int_type i) const` function must be implemented in the derived class.
 
 After defining the vector function this way, define the [Jacobian matrix shape](jacobian-matrix.html#jacobian-matrix-shape).
 
