@@ -32,7 +32,7 @@ daecpp::version_patch
 The timer measures time spent by the program in the given scope and saves it in **milliseconds** in a variable of type `double`:
 
 ```cpp
-double time{0.0}; // Stores time (in ms)
+double time{}; // Stores time (in ms)
 {
     daecpp::Timer timer(&time); // Starts the timer
 

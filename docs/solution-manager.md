@@ -6,7 +6,14 @@ nav_order: 6
 
 # Solution Manager class
 
-The Solution Manager class can serve as a solution observer and/or as an event function that stops computation when a certain event occurs. Solution Manager functor will be called every time step, providing the time `t` and the corresponding solution vector `x` for the user for further post-processing. If the functor returns an integer which is not equal to `0` (i.e., `true`), the computation will immediately stop.
+The Solution Manager class can serve as a solution observer and/or as an event function that stops computation (or reduces the time step) when a certain event occurs. Solution Manager functor will be called every time step, providing the time `t` and the corresponding solution vector `x` for the user for further post-processing. If the functor returns an integer which is not equal to `0` (or `daecpp::solver_command::continue_integration`), the solver behaviour will depend on the return value of the functor:
+
+- If the functor returns `daecpp::solver_command::stop_intergration` (or any other integer except defined below), the computation will immediately stop.
+- `daecpp::solver_command::decrease_time_step`: the solver will continue integration but the next time step will be reduced by a factor of `dt_decrease_factor` from the `SolverOptions` class.
+- `daecpp::solver_command::decrease_time_step_and_redo`: the solver will abort the current time step and will redo it with the decreased (by a factor of `dt_decrease_factor`) time step.
+
+The solver commands can be useful in the situations when the solver needs to stop once one of the variables reaches the given value, and the solver should not "overshoot".
+An example of the Solution Manager class that "tells" the solver to decrease the time step and stop when the variable reaches the given value with the given tolerance is provided [below](#example-2).
 
 The solver provides a derived from the Solution Manager class called [`daecpp::Solution`](#solution-class), which writes the solution vector `x` and time `t` every time step or every specific times defined by the user into the [Solution Holder](#solution-holder) object. The user can access this object for further post-processing, printing the solution on the screen or writing it to a file.
 
@@ -26,19 +33,19 @@ public:
     {
         // Solution Manager definition
 
-        return 0; // Returns 0 by default or an integer != 0 to stop the computation
+        return 0; // Returns 0 by default (or `daecpp::solver_command::continue_integration`)
     }
 };
 ```
 
 The operator `()` will be called every time step, providing the user with the current state `x` and the corresponding time `t`.
-If the functor returns non-zero integer, the computation will stop.
+If the functor returns `daecpp::solver_command::stop_intergration`, the computation will stop.
 The user is free to define the solution container and save the solution within the Solution Manager class. The solver provides [`SolutionHolder`](#solution-holder) helper class that stores solution vectors `x` and the corresponding times `t`.
 
 {: .note }
 The type of vector `x` in the class definition above is `daecpp::state_vector`, which is an alias of `std::vector<float_type>` type. See [`dae-cpp` types](https://dae-cpp.github.io/prerequisites.html#dae-cpp-types) section for more information.
 
-## Example
+## Example 1
 
 In the following example, we define a custom Solution Manager that performs the following 3 tasks:
 
@@ -79,6 +86,60 @@ public:
 Vectors `x_sol` and `t_sol` should be defined before calling the `UserDefinedSolutionManager` constructor and must live until the end of the computation. They shouldn't be passed to the constructor as temporary objects and must **not** go out of scope before finishing the system solving (otherwise, this will lead to dangling references `&m_x_sol` and `&m_t_sol` in the class definition above).
 
 Similar to the mass matrix, vector function and Jacobian matrix definitions, inhereting the `daecpp::SolutionManager` class is a good practice (it serves as a blueprint), but it is not necessary. The user is allowed to define custom Solution Managers without inhereting `daecpp::SolutionManager`.
+
+## Example 2
+
+In the example below, consider the analytic solution is `x[0] = 2 - t`, so `x[0] = 1` at time `t = 1`.
+Imagine we need to stop integration when `x[0] = 1` exactly (with the given tolerance).
+Here is an example of the Solution Manager class that can be used to achieve that:
+
+```cpp
+constexpr double tol{1e-6}; // Tolerance
+
+class UserDefinedSolutionManager
+{
+    daecpp::SolutionHolder &m_sol;
+
+    bool m_keep_reducing_time_step{false};
+
+    void m_save_solution(const daecpp::state_vector &x, const double t)
+    {
+        m_sol.x.emplace_back(x);
+        m_sol.t.emplace_back(t);
+    }
+
+public:
+    UserDefinedSolutionManager(daecpp::SolutionHolder &sol) : m_sol(sol) {}
+
+    int operator()(const daecpp::state_vector &x, const double t)
+    {
+        // Stop once x[0] == 1.0 (with the given tolerance)
+        if (std::abs(x[0] - 1.0) < tol)
+        {
+            m_save_solution(x, t);
+            return daecpp::solver_command::stop_intergration;
+        }
+
+        // In case the solver "overshoots" and x[0] is below 1.0
+        if (x[0] < 1.0)
+        {
+            m_keep_reducing_time_step = true;
+            return daecpp::solver_command::decrease_time_step_and_redo;
+        }
+
+        m_save_solution(x, t);
+
+        // The x[0] value is getting close to 1.0 but we need to reduce the time step
+        // to avoid "overshooting"
+        if (m_keep_reducing_time_step)
+        {
+            return daecpp::solver_command::decrease_time_step;
+        }
+
+        return daecpp::solver_command::continue_integration;
+    }
+};
+```
 
 ----
 
